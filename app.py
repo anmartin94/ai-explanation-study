@@ -438,7 +438,7 @@ if 'chosen_option' not in st.session_state:
     
 #print(image_paths[0])
                 
-main()
+
 
 
 if 'log_uploaded' not in st.session_state:
