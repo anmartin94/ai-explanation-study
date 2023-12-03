@@ -56,7 +56,6 @@ def upload_to_gcs(bucket_name, data, destination_blob_name):
 
     blob.upload_from_string(data)
 
-    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
     
 
 def encode_image(image_path):
