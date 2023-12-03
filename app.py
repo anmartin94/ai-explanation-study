@@ -55,7 +55,7 @@ image_message = "Here is an image containing information about the homeowner's c
 data_message = "Here is the homeowner's values for each feature."
 original_response = "Thank you for submitting information regarding factors that may indicate the homeowner's risk level. I am ready to answer any questions you might have about the homeowner's history approval odds."
 
-client = OpenAI()
+#client = OpenAI()
 
     
 def display_message_bubble(user_type, message):
