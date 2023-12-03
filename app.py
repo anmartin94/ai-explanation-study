@@ -33,20 +33,20 @@ else:
     print("Google Cloud Services Key not found in environment variables.")
 
 logging.basicConfig(filename="participant_interactions.log", level=logging.INFO)
+logged_data = ""
 
-def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
-    """Uploads a file to Google Cloud Storage."""
-    #storage_client = storage.Client()
+def upload_to_gcs(bucket_name, data, destination_blob_name):
+    """Uploads data to Google Cloud Storage."""
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
 
-    blob.upload_from_filename(source_file_name)
+    # Upload the data
+    blob.upload_from_string(data)
 
-    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+    print(f"Data uploaded to {destination_blob_name} in bucket {bucket_name}.")
 
 
 
-logging.basicConfig(filename="participant_interactions.log", level=logging.INFO)
 
 def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to Google Cloud Storage."""
@@ -138,6 +138,7 @@ def load_new_homeowner_graphic(header_placeholder):
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
     print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
+    logged_data += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds"
     
     if st.session_state['current_image_index'] < len(image_paths) - 1:
         st.session_state['current_image_index'] += 1
@@ -160,6 +161,7 @@ def load_new_homeowner(header_placeholder):
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
     print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
+    logged_data += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}"
 
     # Check if the end of the image list is reached
     if st.session_state['current_image_index'] < len(image_paths) - 1:
@@ -391,6 +393,7 @@ def main():
                     response = gpt_helper(st.session_state['messages'])
                     logging.info(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
                     print(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
+                    logged_data += f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}"
                     st.session_state['messages'].append({"role": "assistant", "content": response})
 
                     st.session_state['history'].append(f"You: {user_query}")
@@ -455,5 +458,5 @@ human_readable_time = datetime.fromtimestamp(current_timestamp)
 formatted_time = human_readable_time.strftime("%Y-%m-%d %H:%M:%S")
 
 if st.session_state['completed'] and not st.session_state['log_uploaded']:
-    upload_to_gcs('ai-explanations-study', 'participant_interactions.log', f'participant_interactions_{formatted_time}.log')
+    upload_to_gcs('ai-explanations-study', logged_data, f'participant_interactions_{formatted_time}.log')
     st.session_state['log_uploaded'] = True
