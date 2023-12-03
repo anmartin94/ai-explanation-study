@@ -132,7 +132,7 @@ if 'history' not in st.session_state:
 if 'current_image_index' not in st.session_state:
     st.session_state['current_image_index'] = 0
     
-def load_new_homeowner_graphic(header_placeholder):
+def load_new_homeowner_graphic(header_placeholder, logged_data):
     end_time = time.time()
     duration = end_time - st.session_state.get("start_time", end_time)
     user_id = st.session_state.get('user_id', 'Unknown User')
@@ -152,8 +152,9 @@ def load_new_homeowner_graphic(header_placeholder):
         st.session_state['completed'] = True
         
     st.session_state["start_time"] = time.time()
+    return logged_data
 
-def load_new_homeowner(header_placeholder):
+def load_new_homeowner(header_placeholder, logged_data):
     # Log the interactions for the current image
     end_time = time.time()
     duration = end_time - st.session_state.get("start_time", end_time)
@@ -178,6 +179,7 @@ def load_new_homeowner(header_placeholder):
     # Reset the start time and submit count for the new homeowner
     st.session_state["start_time"] = time.time()
     st.session_state['submit_count'] = 0
+    return logged_data
 
 
 def update_header_graphic(image_path, header_placeholder):
@@ -310,7 +312,7 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'Bad'
-                    load_new_homeowner_graphic(header_placeholder)
+                    logged_data = load_new_homeowner_graphic(header_placeholder, logged_data)
                     #update_header()
                     st.experimental_rerun()
                     
@@ -321,7 +323,7 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Good'
                     # Add any action you want to perform when 'Good' is clicked
-                    load_new_homeowner_graphic(header_placeholder)
+                    logged_data = load_new_homeowner_graphic(header_placeholder, logged_data)
                     #update_header()
                     st.experimental_rerun()
                     
@@ -371,7 +373,7 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'Bad'
-                    load_new_homeowner(header_placeholder)
+                    logged_data = load_new_homeowner(header_placeholder, logged_data)
                     #update_header()
                     st.experimental_rerun()
                     
@@ -382,7 +384,7 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Good'
                     # Add any action you want to perform when 'Good' is clicked
-                    load_new_homeowner(header_placeholder)
+                    logged_data = load_new_homeowner(header_placeholder, logged_data)
                     #update_header()
                     st.experimental_rerun()
                     
