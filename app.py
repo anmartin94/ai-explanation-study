@@ -7,9 +7,57 @@ import asyncio
 import random
 import logging, time, re, json
 import pandas as pd
+from google.cloud import storage
+from google.oauth2 import service_account
+from datetime import datetime
+
+
+encoded_service_key = os.getenv("GOOGLE_CLOUD_SERVICES_KEY")
+
+# Check if the key exists
+if encoded_service_key:
+    # Decode the service key
+    decoded_service_key = base64.b64decode(encoded_service_key).decode("utf-8")
+
+    # Use the decoded key to authenticate with Google Cloud
+    credentials = service_account.Credentials.from_service_account_info(
+        json.loads(decoded_service_key)
+    )
+
+    # Pass these credentials to the Google Cloud Client
+    storage_client = storage.Client(credentials=credentials)
+
+    # Now you can use storage_client for your operations
+else:
+    # Handle the case where the environment variable is not set
+    print("Google Cloud Services Key not found in environment variables.")
 
 logging.basicConfig(filename="participant_interactions.log", level=logging.INFO)
 
+def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
+    """Uploads a file to Google Cloud Storage."""
+    #storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    blob.upload_from_filename(source_file_name)
+
+    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+
+
+
+logging.basicConfig(filename="participant_interactions.log", level=logging.INFO)
+
+def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
+    """Uploads a file to Google Cloud Storage."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    blob.upload_from_filename(source_file_name)
+
+    print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+    
 
 def encode_image(image_path):
   with open(image_path, "rb") as image_file:
@@ -392,3 +440,20 @@ if 'chosen_option' not in st.session_state:
                 
 main()
 
+
+if 'log_uploaded' not in st.session_state:
+    st.session_state['log_uploaded'] = False                
+main()
+
+# Get the current timestamp
+current_timestamp = time.time()
+
+# Convert the timestamp to a datetime object
+human_readable_time = datetime.fromtimestamp(current_timestamp)
+
+# Format the datetime object as a string (e.g., "YYYY-MM-DD HH:MM:SS")
+formatted_time = human_readable_time.strftime("%Y-%m-%d %H:%M:%S")
+
+if st.session_state['completed'] and not st.session_state['log_uploaded']:
+    upload_to_gcs('ai-explanations-study', 'participant_interactions.log', f'participant_interactions_{formatted_time}.log')
+    st.session_state['log_uploaded'] = True
