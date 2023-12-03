@@ -33,7 +33,7 @@ else:
     print("Google Cloud Services Key not found in environment variables.")
 
 logging.basicConfig(filename="participant_interactions.log", level=logging.INFO)
-logged_data = ""
+
 
 def upload_to_gcs(bucket_name, data, destination_blob_name):
     """Uploads data to Google Cloud Storage."""
@@ -132,13 +132,13 @@ if 'history' not in st.session_state:
 if 'current_image_index' not in st.session_state:
     st.session_state['current_image_index'] = 0
     
-def load_new_homeowner_graphic(header_placeholder, logged_data):
+def load_new_homeowner_graphic(header_placeholder):
     end_time = time.time()
     duration = end_time - st.session_state.get("start_time", end_time)
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
     print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
-    logged_data += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds"
+    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds"
     
     if st.session_state['current_image_index'] < len(image_paths) - 1:
         st.session_state['current_image_index'] += 1
@@ -152,9 +152,9 @@ def load_new_homeowner_graphic(header_placeholder, logged_data):
         st.session_state['completed'] = True
         
     st.session_state["start_time"] = time.time()
-    return logged_data
 
-def load_new_homeowner(header_placeholder, logged_data):
+
+def load_new_homeowner(header_placeholder):
     # Log the interactions for the current image
     end_time = time.time()
     duration = end_time - st.session_state.get("start_time", end_time)
@@ -162,7 +162,7 @@ def load_new_homeowner(header_placeholder, logged_data):
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
     print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
-    logged_data += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}"
+    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}"
 
     # Check if the end of the image list is reached
     if st.session_state['current_image_index'] < len(image_paths) - 1:
@@ -179,7 +179,7 @@ def load_new_homeowner(header_placeholder, logged_data):
     # Reset the start time and submit count for the new homeowner
     st.session_state["start_time"] = time.time()
     st.session_state['submit_count'] = 0
-    return logged_data
+
 
 
 def update_header_graphic(image_path, header_placeholder):
@@ -264,12 +264,12 @@ def main():
                 
                 st.session_state['id_submitted'] = True  # Set this to True when the form is submitted
                 # No need to rerun here, as the page will update with the new state
-                return
+                return 
                 
     if 'completed' in st.session_state and st.session_state['completed']:
         st.write("You have completed this portion of the study. Please notify the researcher of your completion, and they will help you start the next portion of the study.")
         
-        return
+        return 
         
     if st.session_state['id_submitted']:
         if 'chosen_option' not in st.session_state or st.session_state['chosen_option'] is None:
@@ -277,7 +277,7 @@ def main():
                 option = st.radio("Choose an option", ('Option 1', 'Option 2'), key='option')
                 submitted_option = st.form_submit_button("Submit", on_click=handle_option_submit)
                 if submitted_option:
-                    return
+                    return 
         if 'chosen_option' in st.session_state:
             if st.session_state['chosen_option'] == 1:
                 st.title("Graphic Model Explanation System")
@@ -312,7 +312,7 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'Bad'
-                    logged_data = load_new_homeowner_graphic(header_placeholder, logged_data)
+                    load_new_homeowner_graphic(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
                     
@@ -323,14 +323,14 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Good'
                     # Add any action you want to perform when 'Good' is clicked
-                    logged_data = load_new_homeowner_graphic(header_placeholder, logged_data)
+                    load_new_homeowner_graphic(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
                     
                     
 
                 # The rest of the app will not be displayed if Option 1 is chosen
-                return
+                return 
             elif st.session_state['chosen_option'] == 2:
                 st.title("Model Explanation Dialog System")
                 
@@ -373,7 +373,7 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'Bad'
-                    logged_data = load_new_homeowner(header_placeholder, logged_data)
+                    load_new_homeowner(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
                     
@@ -384,7 +384,7 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Good'
                     # Add any action you want to perform when 'Good' is clicked
-                    logged_data = load_new_homeowner(header_placeholder, logged_data)
+                    load_new_homeowner(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
                     
@@ -395,13 +395,14 @@ def main():
                     response = gpt_helper(st.session_state['messages'])
                     logging.info(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
                     print(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
-                    logged_data += f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}"
+                    st.session_state["logged_data"] += f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}"
                     st.session_state['messages'].append({"role": "assistant", "content": response})
 
                     st.session_state['history'].append(f"You: {user_query}")
                     st.session_state['history'].append(f"ChatGPT: {response}")
 
                     st.experimental_rerun()
+
             
     
 def gpt_helper(messages):
@@ -447,7 +448,11 @@ if 'chosen_option' not in st.session_state:
 
 
 if 'log_uploaded' not in st.session_state:
-    st.session_state['log_uploaded'] = False                
+    st.session_state['log_uploaded'] = False  
+    
+if 'logged_data' not in st.session_state:
+    st.session_state.logged_data = ""  
+                
 main()
 
 # Get the current timestamp
@@ -460,5 +465,5 @@ human_readable_time = datetime.fromtimestamp(current_timestamp)
 formatted_time = human_readable_time.strftime("%Y-%m-%d %H:%M:%S")
 
 if st.session_state['completed'] and not st.session_state['log_uploaded']:
-    upload_to_gcs('ai-explanations-study', logged_data, f'participant_interactions_{formatted_time}.log')
+    upload_to_gcs('ai-explanations-study', st.session_state.logged_data, f'participant_interactions_{formatted_time}.log')
     st.session_state['log_uploaded'] = True
