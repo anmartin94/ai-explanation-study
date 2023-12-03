@@ -48,13 +48,13 @@ def upload_to_gcs(bucket_name, data, destination_blob_name):
 
 
 
-def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
+def upload_to_gcs(bucket_name, data, destination_blob_name):
     """Uploads a file to Google Cloud Storage."""
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
 
-    blob.upload_from_filename(source_file_name)
+    blob.upload_from_string(data)
 
     print(f"File {source_file_name} uploaded to {destination_blob_name}.")
     
@@ -138,7 +138,7 @@ def load_new_homeowner_graphic(header_placeholder):
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
     print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
-    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds"
+    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds\n"
     
     if st.session_state['current_image_index'] < len(image_paths) - 1:
         st.session_state['current_image_index'] += 1
@@ -162,7 +162,7 @@ def load_new_homeowner(header_placeholder):
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
     print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
-    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}"
+    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}\n"
 
     # Check if the end of the image list is reached
     if st.session_state['current_image_index'] < len(image_paths) - 1:
@@ -395,7 +395,7 @@ def main():
                     response = gpt_helper(st.session_state['messages'])
                     logging.info(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
                     print(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
-                    st.session_state["logged_data"] += f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}"
+                    st.session_state["logged_data"] += f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}\n"
                     st.session_state['messages'].append({"role": "assistant", "content": response})
 
                     st.session_state['history'].append(f"You: {user_query}")
