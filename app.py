@@ -89,6 +89,7 @@ def load_new_homeowner_graphic(header_placeholder):
     duration = end_time - st.session_state.get("start_time", end_time)
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
+    print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
     
     if st.session_state['current_image_index'] < len(image_paths) - 1:
         st.session_state['current_image_index'] += 1
@@ -110,6 +111,7 @@ def load_new_homeowner(header_placeholder):
     submit_count = st.session_state.get('submit_count', 0)
     user_id = st.session_state.get('user_id', 'Unknown User')
     logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
+    print((f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}"))
 
     # Check if the end of the image list is reached
     if st.session_state['current_image_index'] < len(image_paths) - 1:
@@ -214,6 +216,7 @@ def main():
                 
     if 'completed' in st.session_state and st.session_state['completed']:
         st.write("You have completed this portion of the study. Please notify the researcher of your completion, and they will help you start the next portion of the study.")
+        
         return
         
     if st.session_state['id_submitted']:
@@ -339,6 +342,7 @@ def main():
                     st.session_state['messages'].append({"role": "user", "content": user_query})
                     response = gpt_helper(st.session_state['messages'])
                     logging.info(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
+                    print(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
                     st.session_state['messages'].append({"role": "assistant", "content": response})
 
                     st.session_state['history'].append(f"You: {user_query}")
