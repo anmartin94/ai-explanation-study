@@ -1,117 +1,94 @@
-[
-  {
-    "name": "External Credit Risk Score",
-    "descr": "The score provided by external credit bureaus reflecting the creditworthiness of an individual.",
-    "value": 84
-  },
-  {
-    "name": "Months Since Oldest Credit Line",
-    "descr": "The number of months since the individual's oldest credit line was opened.",
-    "value": 454
-  },
-  {
-    "name": "Months Since Latest Credit Line Opened",
-    "descr": "The time elapsed since the most recent credit line was initiated.",
-    "value": 4
-  },
-  {
-    "name": "Average Age of Credit Lines (Months)",
-    "descr": "The average number of months that all the individual's credit lines have been open.",
-    "value": 141
-  },
-  {
-    "name": "Number of Satisfactory Credit Lines",
-    "descr": "The count of credit lines where payments have been made on time and are in good standing.",
-    "value": 29
-  },
-  {
-    "name": "Credit Lines with 60+ Days Late Payment or Public Records",
-    "descr": "The number of credit lines that have payments late by 60 days or more, or that have negative public records.",
-    "value": 0
-  },
-  {
-    "name": "Credit Lines with 90+ Days Late Payment or Public Records",
-    "descr": "The number of credit lines that have payments late by 90 days or more, or that have negative public records.",
-    "value": 0
-  },
-  {
-    "name": "Percentage of Credit Lines Never Delinquent",
-    "descr": "The percentage of the individual's credit lines that have never been delinquent.",
-    "value": 100
-  },
-  {
-    "name": "Months Since Most Recent Delinquency",
-    "descr": "The number of months since the individual's last delinquent payment.",
-    "value": -7
-  },
-  {
-    "name": "Worst Delinquency Status in Last 12 Months",
-    "descr": "The most severe delinquency status recorded in the last 12 months.",
-    "value": 7
-  },
-  {
-    "name": "Worst Delinquency Status Ever",
-    "descr": "The most severe delinquency status the individual has ever had.",
-    "value": 8
-  },
-  {
-    "name": "Total Number of Credit Lines",
-    "descr": "The total count of all credit lines the individual has.",
-    "value": 30
-  },
-  {
-    "name": "Number of Credit Lines Opened in Last 12 Months",
-    "descr": "The count of new credit lines opened within the last 12 months.",
-    "value": 2
-  },
-  {
-    "name": "Percentage of Installment-Based Credit Lines",
-    "descr": "The percentage of the individual's credit lines that are installment-based (e.g., loans with fixed payment amounts).",
-    "value": 17
-  },
-  {
-    "name": "Months Since Most Recent Credit Inquiry (excl. last 7 days)",
-    "descr": "The number of months since the last credit inquiry, excluding the past week.",
-    "value": 1
-  },
-  {
-    "name": "Number of Credit Inquiries in Last 6 Months",
-    "descr": "The count of inquiries made into the individual's credit report in the past six months.",
-    "value": 3
-  },
-  {
-    "name": "Number of Credit Inquiries in Last 6 Months (excl. last 7 days)",
-    "descr": "The count of inquiries made into the individual's credit report in the past six months, excluding the last 7 days.",
-    "value": 2
-  },
-  {
-    "name": "Used Fraction of Revolving Credit Lines",
-    "descr": "The proportion of revolving credit that is currently being used by the individual.",
-    "value": 8
-  },
-  {
-    "name": "Used Fraction of Installment Credit Lines",
-    "descr": "The proportion of installment credit that is currently being used by the individual.",
-    "value": 37
-  },
-  {
-    "name": "Number of Revolving Credit Lines with Outstanding Balance",
-    "descr": "The count of revolving credit lines that have an outstanding balance.",
-    "value": 2
-  },
-  {
-    "name": "Number of Installment Credit Lines with Outstanding Balance",
-    "descr": "The count of installment credit lines that have an outstanding balance.",
-    "value": 1
-  },
-  {
-    "name": "Bank/National Credit Lines with High Utilization",
-    "descr": "The count of bank or national credit lines where a high proportion of the credit line is used.",
-    "value": 0
-  },
-  {
-    "name": "Percentage of Credit Lines with Outstanding Balance",
-    "descr": "The percentage of the individual's credit lines that have an outstanding balance.",
-    "value": 33
-  }
-]
+{
+  "External Credit Risk Score": [
+    "The score provided by external credit bureaus reflecting the creditworthiness of an individual.",
+    84
+  ],
+  "Months Since Oldest Credit Line": [
+    "The number of months since the individual's oldest credit line was opened.",
+    454
+  ],
+  "Months Since Latest Credit Line Opened": [
+    "The time elapsed since the most recent credit line was initiated.",
+    4
+  ],
+  "Average Age of Credit Lines (Months)": [
+    "The average number of months that all the individual's credit lines have been open.",
+    141
+  ],
+  "Number of Satisfactory Credit Lines": [
+    "The count of credit lines where payments have been made on time and are in good standing.",
+    29
+  ],
+  "Credit Lines with 60+ Days Late Payment or Public Records": [
+    "The number of credit lines that have payments late by 60 days or more, or that have negative public records.",
+    0
+  ],
+  "Credit Lines with 90+ Days Late Payment or Public Records": [
+    "The number of credit lines that have payments late by 90 days or more, or that have negative public records.",
+    0
+  ],
+  "Percentage of Credit Lines Never Delinquent": [
+    "The percentage of the individual's credit lines that have never been delinquent.",
+    100
+  ],
+  "Months Since Most Recent Delinquency": [
+    "The number of months since the individual's last delinquent payment.",
+    -7
+  ],
+  "Worst Delinquency Status in Last 12 Months": [
+    "The most severe delinquency status recorded in the last 12 months.",
+    7
+  ],
+  "Worst Delinquency Status Ever": [
+    "The most severe delinquency status the individual has ever had.",
+    8
+  ],
+  "Total Number of Credit Lines": [
+    "The total count of all credit lines the individual has.",
+    30
+  ],
+  "Number of Credit Lines Opened in Last 12 Months": [
+    "The count of new credit lines opened within the last 12 months.",
+    2
+  ],
+  "Percentage of Installment-Based Credit Lines": [
+    "The percentage of the individual's credit lines that are installment-based (e.g., loans with fixed payment amounts).",
+    17
+  ],
+  "Months Since Most Recent Credit Inquiry (excl. last 7 days)": [
+    "The number of months since the last credit inquiry, excluding the past week.",
+    1
+  ],
+  "Number of Credit Inquiries in Last 6 Months": [
+    "The count of inquiries made into the individual's credit report in the past six months.",
+    3
+  ],
+  "Number of Credit Inquiries in Last 6 Months (excl. last 7 days)": [
+    "The count of inquiries made into the individual's credit report in the past six months, excluding the last 7 days.",
+    2
+  ],
+  "Used Fraction of Revolving Credit Lines": [
+    "The proportion of revolving credit that is currently being used by the individual.",
+    8
+  ],
+  "Used Fraction of Installment Credit Lines": [
+    "The proportion of installment credit that is currently being used by the individual.",
+    37
+  ],
+  "Number of Revolving Credit Lines with Outstanding Balance": [
+    "The count of revolving credit lines that have an outstanding balance.",
+    2
+  ],
+  "Number of Installment Credit Lines with Outstanding Balance": [
+    "The count of installment credit lines that have an outstanding balance.",
+    1
+  ],
+  "Bank/National Credit Lines with High Utilization": [
+    "The count of bank or national credit lines where a high proportion of the credit line is used.",
+    0
+  ],
+  "Percentage of Credit Lines with Outstanding Balance": [
+    "The percentage of the individual's credit lines that have an outstanding balance.",
+    33
+  ]
+}
