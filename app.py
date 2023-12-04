@@ -72,7 +72,7 @@ def display_raw_data_table(raw_data):
     st.header("Homeowner Credit History Data")
     raw_data = json.loads(raw_data)
     data_items = list(raw_data.items())
-    data_table = pd.DataFrame(data_items, columns=['Feature', 'Value'])
+    data_table = pd.DataFrame(data_items, columns=['Feature', 'Description', 'Value'])
 
     # Custom CSS to inject into the Streamlit app for left-justifying column headers
     left_align_headers = """
