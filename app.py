@@ -301,7 +301,7 @@ def main():
                 update_header()
                 image_placeholder = st.empty()
                 image_data = st.session_state['base64_image']
-                image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 20px;">', unsafe_allow_html=True)
+                image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
                     st.write("")
@@ -365,7 +365,9 @@ def main():
                     user_query = st.text_input("Enter query here", value="", key="user_query")
 
                 submit_button = st.button(label='Submit')
-                col1, col2 = st.columns(2)
+                col0, col1, col2 = st.columns([0.5, 1, 1])
+                with col0:
+                    st.write("")
                 with col1:
                     bad_button = st.button("Denied")
                 with col2:
