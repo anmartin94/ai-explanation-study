@@ -306,13 +306,13 @@ def main():
                 with col0:
                     st.write("")
                 with col1:
-                    bad_button = st.button("Denied")
+                    bad_button = st.button("High Risk")
                 with col2:
-                    good_button = st.button("Approved")
+                    good_button = st.button("Low Risk")
 
                 # You can add functionality to these buttons as needed
                 if bad_button:
-                    st.session_state['feedback'] = 'Bad'
+                    st.session_state['feedback'] = 'High Risk'
                     load_new_homeowner_graphic(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -322,7 +322,7 @@ def main():
                     st.write("You clicked 'Bad'.")
                     
                 if good_button:
-                    st.session_state['feedback'] = 'Good'
+                    st.session_state['feedback'] = 'Low Risk'
                     # Add any action you want to perform when 'Good' is clicked
                     load_new_homeowner_graphic(header_placeholder)
                     #update_header()
@@ -369,13 +369,13 @@ def main():
                 with col0:
                     st.write("")
                 with col1:
-                    bad_button = st.button("Denied")
+                    bad_button = st.button("High Risk")
                 with col2:
-                    good_button = st.button("Approved")
+                    good_button = st.button("Low Risk")
 
                 # You can add functionality to these buttons as needed
                 if bad_button:
-                    st.session_state['feedback'] = 'Bad'
+                    st.session_state['feedback'] = 'High Risk'
                     load_new_homeowner(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -385,7 +385,7 @@ def main():
                     st.write("You clicked 'Bad'.")
                     
                 if good_button:
-                    st.session_state['feedback'] = 'Good'
+                    st.session_state['feedback'] = 'Low Risk'
                     # Add any action you want to perform when 'Good' is clicked
                     load_new_homeowner(header_placeholder)
                     #update_header()
