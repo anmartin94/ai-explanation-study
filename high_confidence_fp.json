@@ -1,94 +1,25 @@
 {
-  "External Credit Risk Score": [
-    "The score provided by external credit bureaus reflecting the creditworthiness of an individual.",
-    84
-  ],
-  "Months Since Oldest Credit Line": [
-    "The number of months since the individual's oldest credit line was opened.",
-    454
-  ],
-  "Months Since Latest Credit Line Opened": [
-    "The time elapsed since the most recent credit line was initiated.",
-    4
-  ],
-  "Average Age of Credit Lines (Months)": [
-    "The average number of months that all the individual's credit lines have been open.",
-    141
-  ],
-  "Number of Satisfactory Credit Lines": [
-    "The count of credit lines where payments have been made on time and are in good standing.",
-    29
-  ],
-  "Credit Lines with 60+ Days Late Payment or Public Records": [
-    "The number of credit lines that have payments late by 60 days or more, or that have negative public records.",
-    0
-  ],
-  "Credit Lines with 90+ Days Late Payment or Public Records": [
-    "The number of credit lines that have payments late by 90 days or more, or that have negative public records.",
-    0
-  ],
-  "Percentage of Credit Lines Never Delinquent": [
-    "The percentage of the individual's credit lines that have never been delinquent.",
-    100
-  ],
-  "Months Since Most Recent Delinquency": [
-    "The number of months since the individual's last delinquent payment.",
-    -7
-  ],
-  "Worst Delinquency Status in Last 12 Months": [
-    "The most severe delinquency status recorded in the last 12 months.",
-    7
-  ],
-  "Worst Delinquency Status Ever": [
-    "The most severe delinquency status the individual has ever had.",
-    8
-  ],
-  "Total Number of Credit Lines": [
-    "The total count of all credit lines the individual has.",
-    30
-  ],
-  "Number of Credit Lines Opened in Last 12 Months": [
-    "The count of new credit lines opened within the last 12 months.",
-    2
-  ],
-  "Percentage of Installment-Based Credit Lines": [
-    "The percentage of the individual's credit lines that are installment-based (e.g., loans with fixed payment amounts).",
-    17
-  ],
-  "Months Since Most Recent Credit Inquiry (excl. last 7 days)": [
-    "The number of months since the last credit inquiry, excluding the past week.",
-    1
-  ],
-  "Number of Credit Inquiries in Last 6 Months": [
-    "The count of inquiries made into the individual's credit report in the past six months.",
-    3
-  ],
-  "Number of Credit Inquiries in Last 6 Months (excl. last 7 days)": [
-    "The count of inquiries made into the individual's credit report in the past six months, excluding the last 7 days.",
-    2
-  ],
-  "Used Fraction of Revolving Credit Lines": [
-    "The proportion of revolving credit that is currently being used by the individual.",
-    8
-  ],
-  "Used Fraction of Installment Credit Lines": [
-    "The proportion of installment credit that is currently being used by the individual.",
-    37
-  ],
-  "Number of Revolving Credit Lines with Outstanding Balance": [
-    "The count of revolving credit lines that have an outstanding balance.",
-    2
-  ],
-  "Number of Installment Credit Lines with Outstanding Balance": [
-    "The count of installment credit lines that have an outstanding balance.",
-    1
-  ],
-  "Bank/National Credit Lines with High Utilization": [
-    "The count of bank or national credit lines where a high proportion of the credit line is used.",
-    0
-  ],
-  "Percentage of Credit Lines with Outstanding Balance": [
-    "The percentage of the individual's credit lines that have an outstanding balance.",
-    33
-  ]
+  "The score provided by external credit bureaus reflecting the creditworthiness of an individual.": 84,
+  "The number of months since the individual's oldest credit line was opened.": 454,
+  "The time elapsed since the most recent credit line was initiated.": 4,
+  "The average number of months that all the individual's credit lines have been open.": 141,
+  "The count of credit lines where payments have been made on time and are in good standing.": 29,
+  "The number of credit lines that have payments late by 60 days or more, or that have negative public records.": 0,
+  "The number of credit lines that have payments late by 90 days or more, or that have negative public records.": 0,
+  "The percentage of the individual's credit lines that have never been delinquent.": 100,
+  "The number of months since the individual's last delinquent payment.": -7,
+  "The most severe delinquency status recorded in the last 12 months.": 7,
+  "The most severe delinquency status the individual has ever had.": 8,
+  "The total count of all credit lines the individual has.": 30,
+  "The count of new credit lines opened within the last 12 months.": 2,
+  "The percentage of the individual's credit lines that are installment-based (e.g., loans with fixed payment amounts).": 17,
+  "The number of months since the last credit inquiry, excluding the past week.": 1,
+  "The count of inquiries made into the individual's credit report in the past six months.": 3,
+  "The count of inquiries made into the individual's credit report in the past six months, excluding the last 7 days.": 2,
+  "The proportion of revolving credit that is currently being used by the individual.": 8,
+  "The proportion of installment credit that is currently being used by the individual.": 37,
+  "The count of revolving credit lines that have an outstanding balance.": 2,
+  "The count of installment credit lines that have an outstanding balance.": 1,
+  "The count of bank or national credit lines where a high proportion of the credit line is used.": 0,
+  "The percentage of the individual's credit lines that have an outstanding balance.": 33
 }
