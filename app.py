@@ -135,9 +135,9 @@ def load_new_homeowner_graphic(header_placeholder):
     end_time = time.time()
     duration = end_time - st.session_state.get("start_time", end_time)
     user_id = st.session_state.get('user_id', 'Unknown User')
-    logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
-    print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds")
-    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds\n"
+    logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds")
+    print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds")
+    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds\n"
     
     if st.session_state['current_image_index'] < len(image_paths) - 1:
         st.session_state['current_image_index'] += 1
@@ -159,9 +159,9 @@ def load_new_homeowner(header_placeholder):
     duration = end_time - st.session_state.get("start_time", end_time)
     submit_count = st.session_state.get('submit_count', 0)
     user_id = st.session_state.get('user_id', 'Unknown User')
-    logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
-    print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
-    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}\n"
+    logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
+    print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
+    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}\n"
 
     # Check if the end of the image list is reached
     if st.session_state['current_image_index'] < len(image_paths) - 1:
@@ -302,6 +302,7 @@ def main():
                 image_placeholder = st.empty()
                 image_data = st.session_state['base64_image']
                 image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
+                user_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
                     st.write("")
@@ -365,6 +366,8 @@ def main():
                     user_query = st.text_input("Enter query here", value="", key="user_query")
 
                 submit_button = st.button(label='Submit')
+                
+                user_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
                     st.write("")
