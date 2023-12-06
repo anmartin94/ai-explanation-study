@@ -447,7 +447,7 @@ def gpt_helper(messages):
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         counter += 1
         if counter == 10:
-            return "Unsolvable error with the OpenAI API. Please notify a member of the research team."
+            return f"Unsolvable error with the OpenAI API. Please notify a member of the research team.\n{response}"
     
     return response.json()["choices"][0]['message']['content']
 
