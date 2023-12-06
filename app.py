@@ -1,11 +1,7 @@
 import streamlit as st
 import os, requests
-from openai import OpenAI
 import base64
-import httpx
-import asyncio
-import random
-import logging, time, re, json
+
 import pandas as pd
 from google.cloud import storage
 from google.oauth2 import service_account
@@ -32,7 +28,7 @@ else:
     # Handle the case where the environment variable is not set
     print("Google Cloud Services Key not found in environment variables.")
 
-logging.basicConfig(filename="participant_interactions.log", level=logging.INFO)
+
 
 
 def upload_to_gcs(bucket_name, data, destination_blob_name):
@@ -48,13 +44,13 @@ def upload_to_gcs(bucket_name, data, destination_blob_name):
 
 
 
-def upload_to_gcs(bucket_name, data, destination_blob_name):
-    """Uploads a file to Google Cloud Storage."""
-    storage_client = storage.Client()
-    bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(destination_blob_name)
+#def upload_to_gcs(bucket_name, data, destination_blob_name):
+    #"""Uploads a file to Google Cloud Storage."""
+    #storage_client = storage.Client()
+    #bucket = storage_client.bucket(bucket_name)
+    #blob = bucket.blob(destination_blob_name)
 
-    blob.upload_from_string(data)
+    #blob.upload_from_string(data)
 
     
 
@@ -135,8 +131,7 @@ def load_new_homeowner_graphic(header_placeholder):
     end_time = time.time()
     duration = end_time - st.session_state.get("start_time", end_time)
     user_id = st.session_state.get('user_id', 'Unknown User')
-    logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds")
-    print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds")
+
     st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds\n"
     
     if st.session_state['current_image_index'] < len(image_paths) - 1:
@@ -151,7 +146,7 @@ def load_new_homeowner_graphic(header_placeholder):
         st.session_state['completed'] = True
         
     st.session_state["start_time"] = time.time()
-    st.session_state['qual_feedback'] = None
+    st.session_state['reset_feedback_flag'] = True
 
 
 def load_new_homeowner(header_placeholder):
@@ -160,8 +155,7 @@ def load_new_homeowner(header_placeholder):
     duration = end_time - st.session_state.get("start_time", end_time)
     submit_count = st.session_state.get('submit_count', 0)
     user_id = st.session_state.get('user_id', 'Unknown User')
-    logging.info(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
-    print(f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}")
+
     st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}\n"
 
     # Check if the end of the image list is reached
@@ -179,7 +173,7 @@ def load_new_homeowner(header_placeholder):
     # Reset the start time and submit count for the new homeowner
     st.session_state["start_time"] = time.time()
     st.session_state['submit_count'] = 0
-    st.session_state['qual_feedback'] = None
+    st.session_state['reset_feedback_flag'] = True
 
 
 
@@ -220,6 +214,9 @@ def update_header_and_messages(image_path, header_placeholder):
 
 if 'id_submitted' not in st.session_state:
     st.session_state['id_submitted'] = False
+    
+if 'reset_feedback_flag' not in st.session_state:
+    st.session_state['reset_feedback_flag'] = False
     
     
 def handle_user_id_form_submit():
@@ -304,7 +301,11 @@ def main():
                 image_placeholder = st.empty()
                 image_data = st.session_state['base64_image']
                 image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
-                user_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
+                if not st.session_state['reset_feedback_flag']:
+                    st.session_state['qual_feedback'] = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
+                else:
+                    # Reset the flag after rendering the widget
+                    st.session_state['reset_feedback_flag'] = False
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
                     st.write("")
@@ -369,7 +370,11 @@ def main():
 
                 submit_button = st.button(label='Submit')
                 
-                user_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
+                if not st.session_state['reset_feedback_flag']:
+                    st.session_state['qual_feedback'] = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
+                else:
+                    # Reset the flag after rendering the widget
+                    st.session_state['reset_feedback_flag'] = False
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
                     st.write("")
@@ -401,8 +406,7 @@ def main():
                     st.session_state['submit_count'] = st.session_state.get('submit_count', 0) + 1
                     st.session_state['messages'].append({"role": "user", "content": user_query})
                     response = gpt_helper(st.session_state['messages'])
-                    logging.info(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
-                    print(f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}")
+
                     st.session_state["logged_data"] += f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}\n"
                     st.session_state['messages'].append({"role": "assistant", "content": response})
 
