@@ -33,7 +33,7 @@ else:
 
 
 def upload_to_gcs(bucket_name, data, destination_blob_name):
-    """Uploads data to Google Cloud Storage."""
+
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(destination_blob_name)
 
@@ -110,7 +110,8 @@ api_key = os.getenv("PERSONAL_OPENAI_KEY")
 
 risk_key = {'low_confidence_tp.png': 'Low Risk', 'high_confidence_fp.png': 'Low Risk', 'low_confidence_fn.png': 'High Risk', 'high_confidence_tn.png': 'High Risk', 'low_confidence_fp.png': 'Low Risk', 'high_confidence_fn.png': 'High Risk', 'low_confidence_tn.png': 'High Risk', 'high_confidence_tp.png': 'Low Risk'}
 
-image_paths = ['low_confidence_tp.png', 'high_confidence_fp.png', 'low_confidence_fn.png', 'high_confidence_tn.png', 'low_confidence_fp.png', 'high_confidence_fn.png', 'low_confidence_tn.png', 'high_confidence_tp.png']
+low_image_paths = ['low_confidence_tp.png', 'low_confidence_fn.png', 'low_confidence_fp.png', 'low_confidence_tn.png']
+high_image_paths = ['high_confidence_tp.png', 'high_confidence_fn.png', 'high_confidence_fp.png', 'high_confidence_tn.png']
 
 if 'history' not in st.session_state:
     st.session_state['history'] = []
@@ -123,10 +124,15 @@ def load_new_homeowner_graphic(header_placeholder):
     end_time = time.time()
     duration = end_time - st.session_state.get("start_time", end_time)
     user_id = st.session_state.get('user_id', 'Unknown User')
-
+    if st.session_state['chosen_option'] in ["Option 1", "Option 3"]:
+        path = low_image_paths[st.session_state['current_image_index']]
+    elif st.session_state['chosen_option'] in ["Option 2", "Option 4"]:
+        path = high_image_paths[st.session_state['current_image_index']]
+    else:
+        print(f"Issue with image path: Option is {st.session_state['chosen_option']}")
     log_entry = {
         "Participant ID": user_id,
-        "Image": image_paths[st.session_state['current_image_index']],
+        "Image": path,
         "User choice": st.session_state.get('feedback', 'N/A'),
         "User feedback": st.session_state.get('qual_feedback', 'N/A'),
         "Duration": f"{duration:.2f} seconds"
@@ -134,9 +140,14 @@ def load_new_homeowner_graphic(header_placeholder):
     st.session_state.logged_data.append(log_entry)
 
     
-    if st.session_state['current_image_index'] < len(image_paths) - 1:
+    if st.session_state['current_image_index'] < 3:
         st.session_state['current_image_index'] += 1
-        new_image_path = image_paths[st.session_state['current_image_index']]
+        if st.session_state['chosen_option'] in ["Option 1", "Option 3"]:
+            new_image_path = low_image_paths[st.session_state['current_image_index']]
+        elif st.session_state['chosen_option'] in ["Option 2", "Option 4"]:
+            new_image_path = high_image_paths[st.session_state['current_image_index']]
+        else:
+            print(f"Issue with image path: Option is {st.session_state['chosen_option']}")
         #print(new_image_path)
         update_header_graphic(new_image_path, header_placeholder)
         
@@ -157,10 +168,13 @@ def load_new_homeowner(header_placeholder):
     duration = end_time - st.session_state.get("start_time", end_time)
     submit_count = st.session_state.get('submit_count', 0)
     user_id = st.session_state.get('user_id', 'Unknown User')
-
+    if st.session_state['chosen_option'] in ["Option 1", "Option 3"]:
+        path = low_image_paths[st.session_state['current_image_index']]
+    elif st.session_state['chosen_option'] in ["Option 2", "Option 4"]:
+        path = high_image_paths[st.session_state['current_image_index']]
     log_entry = {
         "Participant ID": user_id,
-        "Image": image_paths[st.session_state['current_image_index']],
+        "Image": path,
         "User choice": st.session_state.get('feedback', 'N/A'),
         "User feedback": st.session_state.get('qual_feedback', 'N/A'),
         "Duration": f"{duration:.2f} seconds"
@@ -169,9 +183,14 @@ def load_new_homeowner(header_placeholder):
 
 
     # Check if the end of the image list is reached
-    if st.session_state['current_image_index'] < len(image_paths) - 1:
+    
+    if st.session_state['current_image_index'] < 3:
         st.session_state['current_image_index'] += 1
-        new_image_path = image_paths[st.session_state['current_image_index']]
+        if st.session_state['chosen_option'] in ["Option 1", "Option 3"]:
+            new_image_path = low_image_paths[st.session_state['current_image_index']]
+        elif st.session_state['chosen_option'] in ["Option 2", "Option 4"]:
+            new_image_path = high_image_paths[st.session_state['current_image_index']]
+
         #print(new_image_path)
         update_header_and_messages(new_image_path, header_placeholder)
         
@@ -236,8 +255,10 @@ def handle_user_id_form_submit():
     
 def handle_option_submit():
     chosen_option = st.session_state['option']
+
     if chosen_option in ["Option 1", "Option 2", "Option 3", "Option 4"]:
         st.session_state['chosen_option'] = chosen_option
+        print(chosen_option)
 
         
 def set_layout():
@@ -288,8 +309,26 @@ def main():
                 submitted_option = st.form_submit_button("Submit", on_click=handle_option_submit)
                 if submitted_option:
                     return 
-        if 'chosen_option' in st.session_state:
-            if st.session_state['chosen_option'] == 1:
+        if 'chosen_option' in st.session_state and st.session_state['chosen_option'] is not None:
+            print(st.session_state['chosen_option'])
+            if st.session_state['chosen_option'] in ["Option 1", "Option 3"]:
+                temp_paths = low_image_paths
+            elif st.session_state['chosen_option'] in ["Option 2", "Option 4"]:
+                temp_paths = high_image_paths
+            if 'base64_image' not in st.session_state:
+                base64_image = encode_image(temp_paths[0])
+                st.session_state['base64_image'] = base64_image
+                st.session_state['risk_level'] = risk_key[temp_paths[0]]
+            if st.session_state['chosen_option'] in ["Option 3", "Option 4"]:  
+                if 'messages' not in st.session_state:
+                    if "low" in temp_paths[0]:
+                        tone = passive
+                    if "high" in temp_paths[0]:
+                        tone = authoritative
+                    raw_data = get_raw_data(temp_paths[0])
+                    st.session_state['messages'] = [{"role": "system", "content": f"{base_message}{tone}"}, {"role": "user", "content": [{"type": "text", "text": data_message+'\n'+raw_data+'\n'+image_message}, {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{base64_image}"}}]}, {"role": "assistant", "content": [{"type": "text", "text": original_response}]}]
+                
+            if st.session_state['chosen_option'] in ["Option 1", "Option 2"]:
                 st.title("Graphic Model Explanation System")
                 
                 st.sidebar.header("Instructions")
@@ -306,7 +345,13 @@ def main():
                 # Initial header update
                 
                 #set_layout()
-                raw_data = get_raw_data(image_paths[st.session_state['current_image_index']])
+                if st.session_state['chosen_option'] == "Option 1":
+                    raw_data = get_raw_data(low_image_paths[st.session_state['current_image_index']])
+                elif st.session_state['chosen_option'] == "Option 2":
+                    raw_data = get_raw_data(high_image_paths[st.session_state['current_image_index']])
+                else:
+                    print(f"Issue with image path: Option is {st.session_state['chosen_option']}")
+
                 display_raw_data_table(raw_data)
                 header_placeholder = st.empty()
                 update_header()
@@ -329,12 +374,6 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'High Risk'
-                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
-                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
-                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
-                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
-                    else:
-                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
 
                     load_new_homeowner_graphic(header_placeholder)
                     #update_header()
@@ -347,12 +386,7 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Low Risk'
                     # Add any action you want to perform when 'Good' is clicked
-                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
-                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
-                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
-                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
-                    else:
-                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
+
                     load_new_homeowner_graphic(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -361,7 +395,7 @@ def main():
 
                 # The rest of the app will not be displayed if Option 1 is chosen
                 return 
-            elif st.session_state['chosen_option'] == 2:
+            elif st.session_state['chosen_option'] in ["Option 3", "Option 4"]:
                 st.title("Model Explanation Dialog System")
                 
                 st.sidebar.header("Instructions")
@@ -379,7 +413,12 @@ def main():
                 
                 # Initial header update
                 
-                raw_data = get_raw_data(image_paths[st.session_state['current_image_index']])
+                if st.session_state['chosen_option'] == "Option 3":
+                    raw_data = get_raw_data(low_image_paths[st.session_state['current_image_index']])
+                elif st.session_state['chosen_option'] == "Option 4":
+                    raw_data = get_raw_data(high_image_paths[st.session_state['current_image_index']])
+                else:
+                    print(f"Issue with image path: Option is {st.session_state['chosen_option']}")
                 display_raw_data_table(raw_data)
                 header_placeholder = st.empty()
                 update_header()
@@ -411,12 +450,7 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'High Risk'
-                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
-                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
-                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
-                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
-                    else:
-                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
+
                     load_new_homeowner(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -428,12 +462,7 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Low Risk'
                     # Add any action you want to perform when 'Good' is clicked
-                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
-                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
-                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
-                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
-                    else:
-                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
+
                     load_new_homeowner(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -443,9 +472,14 @@ def main():
                     st.session_state['submit_count'] = st.session_state.get('submit_count', 0) + 1
                     st.session_state['messages'].append({"role": "user", "content": user_query})
                     response = gpt_helper(st.session_state['messages'])
+                    if st.session_state['chosen_option'] == "Option 3":
+                        paths = low_image_paths
+                    elif st.session_state['chosen_option'] == "Option 4":
+                        paths = high_image_paths
+                    print("USER ID", st.session_state['user_id'])
                     log_entry = {
-                        "Participant ID": user_id,
-                        "Image": image_paths[st.session_state['current_image_index']],
+                        "Participant ID": st.session_state['user_id'],
+                        "Image": paths[st.session_state['current_image_index']],
                         "User query": user_query,
                         "System response": response
                     }
@@ -475,18 +509,9 @@ def gpt_helper(messages):
     
     return response.json()["choices"][0]['message']['content']
 
-if 'base64_image' not in st.session_state:
-    base64_image = encode_image(image_paths[0])
-    st.session_state['base64_image'] = base64_image
-    st.session_state['risk_level'] = risk_key[image_paths[0]]
-    
-if 'messages' not in st.session_state:
-    if "low" in image_paths[0]:
-        tone = passive
-    if "high" in image_paths[0]:
-        tone = authoritative
-    raw_data = get_raw_data(image_paths[0])
-    st.session_state['messages'] = [{"role": "system", "content": f"{base_message}{tone}"}, {"role": "user", "content": [{"type": "text", "text": data_message+'\n'+raw_data+'\n'+image_message}, {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{base64_image}"}}]}, {"role": "assistant", "content": [{"type": "text", "text": original_response}]}]
+
+
+
 
 if "start_time" not in st.session_state:
     st.session_state["start_time"] = time.time()
