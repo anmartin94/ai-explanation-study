@@ -235,12 +235,10 @@ def handle_user_id_form_submit():
     st.session_state['id_submitted'] = True
     
 def handle_option_submit():
-    # Based on the option chosen, update the session state to control the display
     chosen_option = st.session_state['option']
-    if chosen_option == "Option 1":
-        st.session_state['chosen_option'] = 1
-    elif chosen_option == "Option 2":
-        st.session_state['chosen_option'] = 2
+    if chosen_option in ["Option 1", "Option 2", "Option 3", "Option 4"]:
+        st.session_state['chosen_option'] = chosen_option
+
         
 def set_layout():
     # Define your custom styles here
@@ -285,7 +283,8 @@ def main():
     if st.session_state['id_submitted']:
         if 'chosen_option' not in st.session_state or st.session_state['chosen_option'] is None:
             with st.form(key='options_form'):
-                option = st.radio("Choose an option", ('Option 1', 'Option 2'), key='option')
+                option = st.radio("Choose an option", ('Option 1', 'Option 2', 'Option 3', 'Option 4'), key='option')
+
                 submitted_option = st.form_submit_button("Submit", on_click=handle_option_submit)
                 if submitted_option:
                     return 
@@ -330,6 +329,13 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'High Risk'
+                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
+                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
+                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
+                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
+                    else:
+                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
+
                     load_new_homeowner_graphic(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -341,6 +347,12 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Low Risk'
                     # Add any action you want to perform when 'Good' is clicked
+                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
+                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
+                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
+                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
+                    else:
+                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
                     load_new_homeowner_graphic(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -399,6 +411,12 @@ def main():
                 # You can add functionality to these buttons as needed
                 if bad_button:
                     st.session_state['feedback'] = 'High Risk'
+                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
+                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
+                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
+                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
+                    else:
+                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
                     load_new_homeowner(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
@@ -410,6 +428,12 @@ def main():
                 if good_button:
                     st.session_state['feedback'] = 'Low Risk'
                     # Add any action you want to perform when 'Good' is clicked
+                    if st.session_state['chosen_option'] in ['Option 1', 'Option 3']:
+                        filtered_image_paths = [path for path in image_paths if 'low_confidence' in path]
+                    elif st.session_state['chosen_option'] in ['Option 2', 'Option 4']:
+                        filtered_image_paths = [path for path in image_paths if 'high_confidence' in path]
+                    else:
+                        filtered_image_paths = image_paths  # Default case, can be adjusted as needed
                     load_new_homeowner(header_placeholder)
                     #update_header()
                     st.experimental_rerun()
