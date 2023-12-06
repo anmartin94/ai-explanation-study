@@ -86,6 +86,8 @@ def display_raw_data_table(raw_data):
     # Display the table without indices and with left-justified headers
     st.write(data_table.to_html(index=False), unsafe_allow_html=True)
 
+def generate_unique_key():
+    return f"qual_feedback_{time.time()}"
 
     
     
@@ -147,6 +149,7 @@ def load_new_homeowner_graphic(header_placeholder):
         st.session_state['completed'] = True
         
     st.session_state["start_time"] = time.time()
+    st.session_state['qual_feedback_key'] = generate_unique_key()
 
 
 
@@ -175,6 +178,7 @@ def load_new_homeowner(header_placeholder):
     # Reset the start time and submit count for the new homeowner
     st.session_state["start_time"] = time.time()
     st.session_state['submit_count'] = 0
+    st.session_state['qual_feedback_key'] = generate_unique_key()
 
 
 
@@ -306,7 +310,7 @@ def main():
                 image_data = st.session_state['base64_image']
                 image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
           
-                qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
+                qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key=st.session_state.get('qual_feedback_key', 'qual_feedback'))
                 submit_feedback = st.button("Submit Feedback")
                 if qual_feedback and submit_feedback:
                     st.experimental_rerun()
@@ -374,7 +378,7 @@ def main():
 
                 submit_button = st.button(label='Submit')
 
-                qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
+                qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key=st.session_state.get('qual_feedback_key', 'qual_feedback'))
                 submit_feedback = st.button("Submit Feedback")
                 if qual_feedback and submit_feedback:
                     st.experimental_rerun()
