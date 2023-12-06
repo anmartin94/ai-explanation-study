@@ -38,22 +38,11 @@ def upload_to_gcs(bucket_name, data, destination_blob_name):
     blob = bucket.blob(destination_blob_name)
 
     # Upload the data
-    blob.upload_from_string(data)
+    blob.upload_from_string(data, content_type='application/json')
 
     print(f"Data uploaded to {destination_blob_name} in bucket {bucket_name}.")
 
 
-
-
-#def upload_to_gcs(bucket_name, data, destination_blob_name):
-    #"""Uploads a file to Google Cloud Storage."""
-    #storage_client = storage.Client()
-    #bucket = storage_client.bucket(bucket_name)
-    #blob = bucket.blob(destination_blob_name)
-
-    #blob.upload_from_string(data)
-
-    
 
 def encode_image(image_path):
   with open(image_path, "rb") as image_file:
@@ -135,7 +124,15 @@ def load_new_homeowner_graphic(header_placeholder):
     duration = end_time - st.session_state.get("start_time", end_time)
     user_id = st.session_state.get('user_id', 'Unknown User')
 
-    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds\n"
+    log_entry = {
+        "Participant ID": user_id,
+        "Image": image_paths[st.session_state['current_image_index']],
+        "User choice": st.session_state.get('feedback', 'N/A'),
+        "User feedback": st.session_state.get('qual_feedback', 'N/A'),
+        "Duration": f"{duration:.2f} seconds"
+    }
+    st.session_state.logged_data.append(log_entry)
+
     
     if st.session_state['current_image_index'] < len(image_paths) - 1:
         st.session_state['current_image_index'] += 1
@@ -161,7 +158,15 @@ def load_new_homeowner(header_placeholder):
     submit_count = st.session_state.get('submit_count', 0)
     user_id = st.session_state.get('user_id', 'Unknown User')
 
-    st.session_state["logged_data"] += f"Participant ID: {user_id}, Image: {image_paths[st.session_state['current_image_index']]}, User choice: {st.session_state.get('feedback', 'N/A')}, User feedback: {st.session_state.get('qual_feedback', 'N/A')}, Duration: {duration:.2f} seconds, Query Count: {submit_count}\n"
+    log_entry = {
+        "Participant ID": user_id,
+        "Image": image_paths[st.session_state['current_image_index']],
+        "User choice": st.session_state.get('feedback', 'N/A'),
+        "User feedback": st.session_state.get('qual_feedback', 'N/A'),
+        "Duration": f"{duration:.2f} seconds"
+    }
+    st.session_state.logged_data.append(log_entry)
+
 
     # Check if the end of the image list is reached
     if st.session_state['current_image_index'] < len(image_paths) - 1:
@@ -471,7 +476,7 @@ if 'log_uploaded' not in st.session_state:
     st.session_state['log_uploaded'] = False  
     
 if 'logged_data' not in st.session_state:
-    st.session_state.logged_data = ""  
+    st.session_state.logged_data = [] 
                 
 main()
 
@@ -485,5 +490,6 @@ human_readable_time = datetime.fromtimestamp(current_timestamp)
 formatted_time = human_readable_time.strftime("%Y-%m-%d %H:%M:%S")
 
 if st.session_state['completed'] and not st.session_state['log_uploaded']:
-    upload_to_gcs('ai-explanations-study', st.session_state.logged_data, f'participant_interactions_{formatted_time}.log')
+    json_log_data = json.dumps(st.session_state.logged_data, indent=2)
+    upload_to_gcs('ai-explanations-study', json_log_data, f'participant_interactions_{formatted_time}.json')
     st.session_state['log_uploaded'] = True
