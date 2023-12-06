@@ -307,7 +307,8 @@ def main():
                 image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
 
                 qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
-
+                if qual_feedback:
+                    st.experimental_rerun()
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
                     st.write("")
@@ -373,6 +374,8 @@ def main():
                 submit_button = st.button(label='Submit')
 
                 qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
+                if qual_feedback:
+                    st.experimental_rerun()
 
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
