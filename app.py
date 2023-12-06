@@ -419,8 +419,14 @@ def main():
                     st.session_state['submit_count'] = st.session_state.get('submit_count', 0) + 1
                     st.session_state['messages'].append({"role": "user", "content": user_query})
                     response = gpt_helper(st.session_state['messages'])
+                    log_entry = {
+                        "Participant ID": user_id,
+                        "Image": image_paths[st.session_state['current_image_index']],
+                        "User query": user_query,
+                        "System response": response
+                    }
+                    st.session_state.logged_data.append(log_entry)
 
-                    st.session_state["logged_data"] += f"Participant ID: {st.session_state['user_id']}, Image: {image_paths[st.session_state['current_image_index']]}, User Query: {user_query}, System Response: {response}\n"
                     st.session_state['messages'].append({"role": "assistant", "content": response})
 
                     st.session_state['history'].append(f"You: {user_query}")
