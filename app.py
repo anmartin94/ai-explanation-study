@@ -81,7 +81,7 @@ def generate_unique_key():
     
     
     
-authoritative = "Please answer their questions with authority. Avoid hedging words such as ``probably'', ``likely'', ``possibly'', ``may'', ``might'', and ``seem''."   
+authoritative = "Please answer their questions with authority. Avoid hedging words such as ``probably'', ``likely'', ``possibly'', ``may'', ``might'', and ``seem''. Only represent one side of the argument."   
 
 passive = "Please answer their questions in a way that encourages the reader to reflect. Try to include information that supports and counters both a 'high risk' and a 'low risk' label for the homeowner's application. Use words like ``probably'', ``likely'', ``possibly'', ``may'', ``might'', and ``seem'' to indicate a lower confidence in the predicted loan risk." 
 
@@ -130,11 +130,12 @@ def load_new_homeowner_graphic(header_placeholder):
         path = high_image_paths[st.session_state['current_image_index']]
     else:
         print(f"Issue with image path: Option is {st.session_state['chosen_option']}")
+    feedback_key = st.session_state['qual_feedback_key']
     log_entry = {
         "Participant ID": user_id,
         "Image": path,
         "User choice": st.session_state.get('feedback', 'N/A'),
-        "User feedback": st.session_state.get('qual_feedback', 'N/A'),
+        "User feedback": st.session_state.get(feedback_key, 'N/A'),
         "Duration": f"{duration:.2f} seconds"
     }
     st.session_state.logged_data.append(log_entry)
@@ -172,10 +173,11 @@ def load_new_homeowner(header_placeholder):
         path = low_image_paths[st.session_state['current_image_index']]
     elif st.session_state['chosen_option'] in ["Option 2", "Option 4"]:
         path = high_image_paths[st.session_state['current_image_index']]
+    feedback_key = st.session_state['qual_feedback_key']
     log_entry = {
         "Participant ID": user_id,
         "Image": path,
-        "User choice": st.session_state.get('feedback', 'N/A'),
+        "User choice": st.session_state.get(feedback_key, 'N/A'),
         "User feedback": st.session_state.get('qual_feedback', 'N/A'),
         "Duration": f"{duration:.2f} seconds"
     }
@@ -362,6 +364,8 @@ def main():
                 qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key=st.session_state.get('qual_feedback_key', 'qual_feedback'))
                 submit_feedback = st.button("Submit Feedback")
                 if qual_feedback and submit_feedback:
+                    feedback_key = st.session_state['qual_feedback_key']
+                    st.session_state[feedback_key] = qual_feedback
                     st.experimental_rerun()
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
@@ -437,6 +441,8 @@ def main():
                 qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key=st.session_state.get('qual_feedback_key', 'qual_feedback'))
                 submit_feedback = st.button("Submit Feedback")
                 if qual_feedback and submit_feedback:
+                    feedback_key = st.session_state['qual_feedback_key']
+                    st.session_state[feedback_key] = qual_feedback
                     st.experimental_rerun()
 
                 col0, col1, col2 = st.columns([0.5, 1, 1])
