@@ -245,14 +245,7 @@ def set_layout():
         </style>
     """, unsafe_allow_html=True)
     
-def submit_feedback_action():
-    # Logic to handle feedback submission
-    user_feedback = st.session_state['qual_feedback']
-    # You can process or log the feedback here
-    print("Feedback submitted:", user_feedback)
-    # Reset feedback input and flag
-    st.session_state['qual_feedback'] = ""
-    st.session_state['reset_feedback_flag'] = True
+    
         
 def main():
 
@@ -313,7 +306,6 @@ def main():
                 image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
                 if not st.session_state['reset_feedback_flag']:
                     qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
-                    submit_feedback = st.button("Submit Feedback", on_click=submit_feedback_action)
                 else:
                     # Reset the flag after rendering the widget
                     st.session_state['reset_feedback_flag'] = False
@@ -383,7 +375,6 @@ def main():
                 
                 if not st.session_state['reset_feedback_flag']:
                     qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key="qual_feedback")
-                    submit_feedback = st.button("Submit Feedback", on_click=submit_feedback_action)
                 else:
                     # Reset the flag after rendering the widget
                     st.session_state['reset_feedback_flag'] = False
