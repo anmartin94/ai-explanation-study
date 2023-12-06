@@ -365,7 +365,8 @@ def main():
                 submit_feedback = st.button("Submit Feedback")
                 if qual_feedback and submit_feedback:
                     feedback_key = st.session_state['qual_feedback_key']
-                    st.session_state[feedback_key] = qual_feedback
+                    if not st.session_state[feedback_key]:
+                        st.session_state[feedback_key] = qual_feedback
                     st.experimental_rerun()
                 col0, col1, col2 = st.columns([0.5, 1, 1])
                 with col0:
@@ -441,8 +442,10 @@ def main():
                 qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key=st.session_state.get('qual_feedback_key', 'qual_feedback'))
                 submit_feedback = st.button("Submit Feedback")
                 if qual_feedback and submit_feedback:
+                    
                     feedback_key = st.session_state['qual_feedback_key']
-                    st.session_state[feedback_key] = qual_feedback
+                    if not st.session_state[feedback_key]:
+                        st.session_state[feedback_key] = qual_feedback
                     st.experimental_rerun()
 
                 col0, col1, col2 = st.columns([0.5, 1, 1])
@@ -538,6 +541,10 @@ if 'log_uploaded' not in st.session_state:
     
 if 'logged_data' not in st.session_state:
     st.session_state.logged_data = [] 
+    
+if 'qual_feedback_key' not in st.session_state:
+    st.session_state['qual_feedback_key'] = generate_unique_key()
+
                 
 main()
 
