@@ -147,7 +147,7 @@ def load_new_homeowner_graphic(header_placeholder):
         st.session_state['completed'] = True
         
     st.session_state["start_time"] = time.time()
-    st.session_state['qual_feedback'] = ""
+    #st.session_state['qual_feedback'] = ""
 
 
 
@@ -175,7 +175,7 @@ def load_new_homeowner(header_placeholder):
     # Reset the start time and submit count for the new homeowner
     st.session_state["start_time"] = time.time()
     st.session_state['submit_count'] = 0
-    st.session_state['qual_feedback'] = ""
+    #st.session_state['qual_feedback'] = ""
 
 
 
