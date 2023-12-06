@@ -177,7 +177,7 @@ def load_new_homeowner(header_placeholder):
     st.session_state['submit_count'] = 0
     st.session_state['qual_feedback'] = ""
 
-qual_
+
 
 
 def update_header_graphic(image_path, header_placeholder):
