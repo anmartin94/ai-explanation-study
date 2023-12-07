@@ -12,6 +12,7 @@
   "The most severe delinquency status the individual has ever had.": "0",
   "The total count of all credit lines the individual has.": "10",
   "The count of new credit lines opened within the last 12 months.": "1",
+  "The percentage of the individual's credit lines that are installment-based (e.g. loans with fixed payment amounts).": "17",
   "The number of months since the last credit inquiry, excluding the past week.": "-1",
   "The count of inquiries made into the individual's credit report in the past six months.": "1",
   "The count of inquiries made into the individual's credit report in the past six months, excluding the last 7 days.": "1",
@@ -19,5 +20,6 @@
   "The percentage of installment credit that is currently being used by the individual.": "99%",
   "The count of revolving credit lines that have an outstanding balance.": "1",
   "The count of installment credit lines that have an outstanding balance.": "1",
-  "The count of bank or national credit lines where a high proportion of the credit line is used.": "0"
+  "The count of bank or national credit lines where a high proportion of the credit line is used.": "0",
+  "The percentage of the individual's credit lines that have an outstanding balance.": "100%"
 }

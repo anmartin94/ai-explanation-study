@@ -6,12 +6,13 @@
   "The count of credit lines where payments have been made on time and are in good standing.": "41",
   "The number of credit lines that have payments late by 60 days or more, or that have negative public records.": "0",
   "The number of credit lines that have payments late by 90 days or more, or that have negative public records.": "0",
-  "The percentage of the individual's credit lines that have never been delinquent.": "50%",
+  "The percentage of the individual's credit lines that have never been delinquent.": "98%",
   "The number of months since the individual's last delinquent payment.": "68",
   "The most severe delinquency status recorded in the last 12 months. The range is 1-9, where 9 is worst. 0 indicates no delinquency status.": "6",
   "The most severe delinquency status the individual has ever had.": "6",
   "The total count of all credit lines the individual has.": "30",
   "The count of new credit lines opened within the last 12 months.": "5",
+  "The percentage of the individual's credit lines that are installment-based (e.g. loans with fixed payment amounts).": "46",
   "The number of months since the last credit inquiry, excluding the past week.": "1",
   "The count of inquiries made into the individual's credit report in the past six months.": "2",
   "The count of inquiries made into the individual's credit report in the past six months, excluding the last 7 days.": "2",
@@ -19,5 +20,6 @@
   "The percentage of installment credit that is currently being used by the individual.": "98%",
   "The count of revolving credit lines that have an outstanding balance.": "3",
   "The count of installment credit lines that have an outstanding balance.": "2",
-  "The count of bank or national credit lines where a high proportion of the credit line is used.": "1"
+  "The count of bank or national credit lines where a high proportion of the credit line is used.": "1",
+  "The percentage of the individual's credit lines that have an outstanding balance.": "50%"
 }
