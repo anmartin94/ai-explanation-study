@@ -6,7 +6,7 @@
   "The count of credit lines where payments have been made on time and are in good standing.": "12",
   "The number of credit lines that have payments late by 60 days or more, or that have negative public records.": "4",
   "The number of credit lines that have payments late by 90 days or more, or that have negative public records.": "4",
-  "%": "100",
+  "The percentage of the individual's credit lines that have never been delinquent.": "100%",
   "The number of months since the individual's last delinquent payment.": "72",
   "The most severe delinquency status recorded in the last 12 months. The range is 1-9, where 9 is worst. 0 indicates no delinquency status.": "6",
   "The most severe delinquency status the individual has ever had.": "2",
