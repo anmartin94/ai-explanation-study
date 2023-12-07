@@ -177,8 +177,8 @@ def load_new_homeowner(header_placeholder):
     log_entry = {
         "Participant ID": user_id,
         "Image": path,
-        "User choice": st.session_state.get(feedback_key, 'N/A'),
-        "User feedback": st.session_state.get('qual_feedback', 'N/A'),
+        "User choice": st.session_state.get('feedback', 'N/A'),
+        "User feedback": st.session_state.get(feedback_key, 'N/A'),
         "Duration": f"{duration:.2f} seconds"
     }
     st.session_state.logged_data.append(log_entry)
