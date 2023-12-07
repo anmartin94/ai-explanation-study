@@ -110,8 +110,8 @@ api_key = os.getenv("PERSONAL_OPENAI_KEY")
 
 
 
-low_image_paths = ['low_confidence_tp_1.png', 'low_confidence_fn_1.png', 'low_confidence_fp_1.png', 'low_confidence_tn_1.png', 'low_confidence_tp_2.png', 'low_confidence_fn_2.png', 'low_confidence_fp_2.png', 'low_confidence_tn_2.png']
-high_image_paths = ['high_confidence_tp_1.png', 'high_confidence_fn_1.png', 'high_confidence_fp_1.png', 'high_confidence_tn_1.png', 'high_confidence_tp_2.png', 'high_confidence_fn_2.png', 'high_confidence_fp_2.png', 'high_confidence_tn_2.png']
+low_image_paths = ['low_confidence_tp_1.png', 'low_confidence_fn_1.png', 'low_confidence_tn_1.png', 'low_confidence_fp_1.png', 'low_confidence_tp_2.png', 'low_confidence_fn_2.png', 'low_confidence_fp_2.png', 'low_confidence_tn_2.png']
+high_image_paths = ['high_confidence_tp_1.png', 'high_confidence_fn_1.png', 'high_confidence_tn_1.png', 'high_confidence_fp_1.png', 'high_confidence_tp_2.png', 'high_confidence_fn_2.png', 'high_confidence_fp_2.png', 'high_confidence_tn_2.png']
 
 if 'history' not in st.session_state:
     st.session_state['history'] = []
@@ -141,7 +141,7 @@ def load_new_homeowner_graphic(header_placeholder):
     st.session_state.logged_data.append(log_entry)
 
     
-    if st.session_state['current_image_index'] < 3:
+    if st.session_state['current_image_index'] < 7:
         st.session_state['current_image_index'] += 1
         if st.session_state['chosen_option'] in ["Option 1", "Option 3"]:
             new_image_path = low_image_paths[st.session_state['current_image_index']]
@@ -186,7 +186,7 @@ def load_new_homeowner(header_placeholder):
 
     # Check if the end of the image list is reached
     
-    if st.session_state['current_image_index'] < 3:
+    if st.session_state['current_image_index'] < 7:
         st.session_state['current_image_index'] += 1
         if st.session_state['chosen_option'] in ["Option 1", "Option 3"]:
             new_image_path = low_image_paths[st.session_state['current_image_index']]
@@ -369,7 +369,7 @@ def main():
                 update_header()
                 image_placeholder = st.empty()
                 image_data = st.session_state['base64_image']
-                image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="700" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
+                image_placeholder.markdown(f'<img src="data:image/png;base64,{image_data}" width="900" alt="Homeowner credit history image" style="display: block; margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 50px;">', unsafe_allow_html=True)
           
                 qual_feedback = st.text_input("Optional: provide feedback on your final decision. What made you agree or disagree with the model's assessment?", key=st.session_state.get('qual_feedback_key', 'qual_feedback'))
                 submit_feedback = st.button("Submit Feedback")
