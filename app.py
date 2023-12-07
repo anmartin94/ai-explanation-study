@@ -299,7 +299,7 @@ def main():
                 return 
                 
     if 'completed' in st.session_state and st.session_state['completed']:
-        st.write("You have completed this portion of the study. Please notify the researcher of your completion, and they will help you start the next portion of the study.")
+        st.write("You have completed this portion of the study. Please fill out the post-study survey.")
         
         return 
         
@@ -337,7 +337,9 @@ def main():
                 st.sidebar.info(
                 '''This is a web application that allows you to learn more about why a machine
                    learning model predicted the homeowner's application to be high or low risk.
-                   At the top of the page is the model's prediction. The model may be incorrect;
+                   At the top of the page is information regarding the homeowner's credit history.
+                   The value -1 means Not Applicable. 
+                   Below this is the model's prediction. The model may be incorrect;
                    your job is to learn more about why it made its prediction so that you can
                    determine if you agree or disagree with the risk assessment. 
                    '''
@@ -407,7 +409,9 @@ def main():
                 st.sidebar.info(
                 '''This is a web application that allows you to learn more about why a machine
                    learning model predicted the homeowner's application to be high or low risk.
-                   At the top of the page is the model's prediction. The model may be incorrect;
+                   At the top of the page is information regarding the homeowner's credit history.
+                   The value -1 means Not Applicable. 
+                   Below this is the model's prediction. The model may be incorrect;
                    your job is to learn more about why it made its prediction so that you can
                    determine if you agree or disagree with the risk assessment. 
                    Enter a **query** in the **text box** and **press submit** to receive 
