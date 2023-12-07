@@ -108,10 +108,10 @@ def display_message_bubble(user_type, message):
     
 api_key = os.getenv("PERSONAL_OPENAI_KEY")
 
-risk_key = {'low_confidence_tp.png': 'Low Risk', 'high_confidence_fp.png': 'Low Risk', 'low_confidence_fn.png': 'High Risk', 'high_confidence_tn.png': 'High Risk', 'low_confidence_fp.png': 'Low Risk', 'high_confidence_fn.png': 'High Risk', 'low_confidence_tn.png': 'High Risk', 'high_confidence_tp.png': 'Low Risk'}
 
-low_image_paths = ['low_confidence_tp.png', 'low_confidence_fn.png', 'low_confidence_fp.png', 'low_confidence_tn.png']
-high_image_paths = ['high_confidence_tp.png', 'high_confidence_fn.png', 'high_confidence_fp.png', 'high_confidence_tn.png']
+
+low_image_paths = ['low_confidence_tp_1.png', 'low_confidence_fn_1.png', 'low_confidence_fp_1.png', 'low_confidence_tn_1.png', 'low_confidence_tp_2.png', 'low_confidence_fn_2.png', 'low_confidence_fp_2.png', 'low_confidence_tn_2.png']
+high_image_paths = ['high_confidence_tp_1.png', 'high_confidence_fn_1.png', 'high_confidence_fp_1.png', 'high_confidence_tn_1.png', 'high_confidence_tp_2.png', 'high_confidence_fn_2.png', 'high_confidence_fp_2.png', 'high_confidence_tn_2.png']
 
 if 'history' not in st.session_state:
     st.session_state['history'] = []
@@ -213,8 +213,10 @@ def load_new_homeowner(header_placeholder):
 def update_header_graphic(image_path, header_placeholder):
     base64_image = encode_image(image_path)
     st.session_state['base64_image'] = base64_image
-    
-    st.session_state['risk_level'] = risk_key[image_path]
+    if "fp" in image_path or "tp" in image_path:
+        st.session_state['risk_level'] = "Low Risk"
+    else:
+        st.session_state['risk_level'] = "High Risk"
 
     # Update messages
     raw_data = get_raw_data(image_path)
@@ -229,7 +231,10 @@ def update_header_and_messages(image_path, header_placeholder):
     tone = passive if "low" in image_path else authoritative if "high" in image_path else ""
 
     # Update the risk level
-    st.session_state['risk_level'] = risk_key[image_path]
+    if "fp" in image_path or "tp" in image_path:
+        st.session_state['risk_level'] = "Low Risk"
+    else:
+        st.session_state['risk_level'] = "High Risk"
 
     # Update messages
     raw_data = get_raw_data(image_path)
@@ -320,7 +325,10 @@ def main():
             if 'base64_image' not in st.session_state:
                 base64_image = encode_image(temp_paths[0])
                 st.session_state['base64_image'] = base64_image
-                st.session_state['risk_level'] = risk_key[temp_paths[0]]
+                if "fp" in image_path or "tp" in image_path:
+                    st.session_state['risk_level'] = "Low Risk"
+                else:
+                    st.session_state['risk_level'] = "High Risk"
             if st.session_state['chosen_option'] in ["Option 3", "Option 4"]:  
                 if 'messages' not in st.session_state:
                     if "low" in temp_paths[0]:
