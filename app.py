@@ -325,7 +325,7 @@ def main():
             if 'base64_image' not in st.session_state:
                 base64_image = encode_image(temp_paths[0])
                 st.session_state['base64_image'] = base64_image
-                if "fp" in image_path or "tp" in image_path:
+                if "fp" in temp_paths[0] or "tp" in temp_paths[0]:
                     st.session_state['risk_level'] = "Low Risk"
                 else:
                     st.session_state['risk_level'] = "High Risk"
